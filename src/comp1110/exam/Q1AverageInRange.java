@@ -1,6 +1,10 @@
 package comp1110.exam;
 
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Q1AverageInRange {
@@ -10,14 +14,14 @@ public class Q1AverageInRange {
      * the average of the array elements that are within the range from
      * start to end, inclusive; that is, the average of all values v in
      * the array such that start <= v <= end.
-     *
+     * <p>
      * Note that start and end are values, **not** array indices.
-     *
+     * <p>
      * For example:
-     *
+     * <p>
      * If the array contains {20,1,5,2,33}, start is 5 and end is 40, the
      * average is (5 + 20 + 33) / 3 = 19.33333.
-     *
+     * <p>
      * If there are no values in the array that fall within the specified
      * range, the average is undefined; in this case the method should
      * return the end value.
@@ -26,23 +30,27 @@ public class Q1AverageInRange {
      * @param start the start value of the range (inclusive).
      * @param end   the end value of the range (inclusive).
      * @return the average of the elements with value between start to end,
-     *         or end if the average is undefined (no values within range).
+     * or end if the average is undefined (no values within range).
      */
     public static double averageInRange(int[] in, int start, int end) {
-        int count = 0;
-        int sum=0;
-        for (int j : in) {
-            if (j >= start && j <= end) {
-                sum += j;
-                count++;
+        List<Integer> valueInRange = new ArrayList<>();
+
+        for (int value : in) {
+            if (value <= end && value >= start) {
+                valueInRange.add(value);
             }
         }
-        if (count==0){
-            return end;
-        }else {
-            return (double) sum/(double)count;
-        }
-	// FIXME
-    }
 
+        if (valueInRange.isEmpty()) {
+            return end;
+        } else {
+            double sum = 0;
+            for (int value : valueInRange) {
+                sum += value;
+            }
+            return sum / valueInRange.size();
+
+        }
+
+    }
 }

@@ -37,61 +37,40 @@ public class Q2ThreeOdd {
      */
     public static int threeOdd(String number) {
         //FIXME: implement this method
-
-
-        if (number == null || number.length() == 0) {
+        if (number == null || number.isEmpty() || !number.matches("\\d+")){
             return -1;
         }
-        if (number.charAt(0) == '-') {
-            return -1;
+        if (isThreeOdd(number)) {
+            return sumEvenDigits(number);
+        } else {
+            return sumOddDigits(number);
         }
-        try {
-            Integer.parseInt(number);
-        } catch (Exception e) {
-            return -1;
         }
 
-        int odd = 0;
-        int even = 0;
-        for (int i = 0; i < number.length(); i++) {
-            String[] a = number.split("");
-            int digit = Integer.parseInt(a[i]);
-            if (digit % 2 != 0) {
-                odd += digit;
-            } else {
-                even += digit;
-            }
-        }
+    private static boolean isThreeOdd(String number){
+       if (number.isEmpty()){
+           return true;
+       }
 
-        if (!isThreeOdd(number)) {
-            return odd;
-        }
-        return even;
+       int value = Integer.parseInt(number);
 
+       if(value < 0 || value % 2 == 0 || value % 3 != 0) {
+           return false;
+       }
+       if (number.length() <= 2){
+           return true;
 
+       }
+       return isThreeOdd(number.substring(1,number.length() - 1));
     }
 
-    static boolean isThreeOdd(String number) {
-        if (number == null || number.length() == 0) {
-            return false;
-        }
-        if (number.charAt(0) == '-') {
-            return false;
-        }
-        try {
-            Integer.parseInt(number);
-        } catch (Exception e) {
-            return false;
-        }
-        int i = Integer.parseInt(number);
-        if (i % 3 != 0) {
-            return false;
-        }
-
-        if (number.length() > 2) {
-            return isThreeOdd(number.substring(1, number.length() - 1));
-        }
-
-        return true;
+    private static int sumEvenDigits(String number){
+        return number.chars().filter(Character::isDigit).map(Character::getNumericValue).filter(digit -> digit % 2 == 0).sum();
     }
+
+    private static int sumOddDigits(String number){
+        return number.chars().filter(Character::isDigit).map(Character::getNumericValue).filter(digit -> digit % 2 !=0).sum();
+    }
+
+
 }

@@ -49,7 +49,6 @@ public class Q1AverageInRange {
                 sum += value;
             }
             return sum / valueInRange.size();
-
         }
 
     }

@@ -26,14 +26,15 @@ public class Q7TrafficLight extends Application {
     private final Paint GREEN = Color.GREEN;
     private final Paint RED = Color.RED;
     private final Paint GRAY = Color.GRAY;
-    
+
     /**
      * Helper method to set the colour of a shape object. (This is
      * provided just so that you don't need to search the javafx
      * documentation for the right method.)
      */
     private void setColor(Shape object, Paint color) {
-	object.setFill(color);
+
+        object.setFill(color);
     }
 
     /**
@@ -46,66 +47,65 @@ public class Q7TrafficLight extends Application {
      *   and the lower circle to GRAY;
      * - when the "Reset" button is pressed, set both circles to GRAY.
      */
+
     private void makeControls() {
+
+        Circle upper = new Circle(50);
+        Circle lower = new Circle(50);
+
+        setColor(upper, GRAY);
+        setColor(lower, GRAY);
+
         Button goButton = new Button("Go");
-	goButton.setMinWidth(75);
-	goButton.setOnAction(new EventHandler<ActionEvent>() {
-		@Override
-		public void handle(ActionEvent e) {
-            setColor((Shape) signals.getChildren().get(1),GREEN);
-		    // FIXME: complete this event handler
-		}
-	    });
         Button stopButton = new Button("Stop");
-	stopButton.setMinWidth(75);
-	// dev: solution
-	stopButton.setOnAction(new EventHandler<ActionEvent>() {
-		@Override
-		public void handle(ActionEvent e) {
-            setColor((Shape) signals.getChildren().get(0),RED);
-		    // FIXME: complete this event handler
-		}
-	    });
         Button resetButton = new Button("Reset");
-	resetButton.setMinWidth(75);
-	// dev: solution
-	resetButton.setOnAction(new EventHandler<ActionEvent>() {
-		@Override
-		public void handle(ActionEvent e) {
-            setColor((Shape) signals.getChildren().get(0),GRAY);
-            setColor((Shape) signals.getChildren().get(1),GRAY);
-		    // FIXME: complete this event handler
-		}
-	    });
+
+        goButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                setColor(upper, GRAY);
+                setColor(lower, GREEN);
+            }
+        });
+
+        stopButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                setColor(upper, RED);
+                setColor(lower, GRAY);
+            }
+        });
+
+        resetButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                setColor(upper, GRAY);
+                setColor(lower, GRAY);
+            }
+        });
+
         controls.getChildren().addAll(goButton, stopButton, resetButton);
+        signals.getChildren().addAll(upper, lower);
     }
 
-    private void makeSignals() {
-        Circle upperCircle = new Circle(150, 150, 145);
-        Circle lowerCircle = new Circle(150, 450, 145);
-        signals.getChildren().addAll(upperCircle, lowerCircle);
-    }
 
-    public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Traffic Light Controller");
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
+    public void start (Stage primaryStage) throws Exception{
+        primaryStage.setTitle("Traffic Light");
+        Scene scene = new Scene (root, WIDTH, HEIGHT);
 
-	makeControls();
-        controls.setSpacing(10);
-	makeSignals();
-        signals.setSpacing(10);
-	
-	HBox b = new HBox();
-	b.getChildren().addAll(controls, signals);
-        b.setSpacing(20);
-        root.getChildren().add(b);
+        makeControls();
+        controls.setSpacing(100);
+        signals.setSpacing(20);
 
-	// Initially set both lights to gray
-	setColor((Shape)(signals.getChildren().get(0)), GRAY);
-	setColor((Shape)(signals.getChildren().get(1)), GRAY);
+
+        root.getChildren().addAll(signals, controls);
 
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 
 }

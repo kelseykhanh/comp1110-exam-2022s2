@@ -17,6 +17,15 @@ public class IsIncreasing<T extends Comparable<T>> {
      */
     public boolean isIncreasing(T[] sequence) {
 	// Note: this is not a correct implementation of the method.
-	return false;
+            if (sequence == null || sequence.length == 0) {
+                return true; // An empty sequence is defined to be increasing
+            }
+
+            for (int i = 0; i < sequence.length - 1; i++) {
+                if (sequence[i].compareTo(sequence[i + 1]) > 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
-}
